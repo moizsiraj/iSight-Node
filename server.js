@@ -25,21 +25,53 @@ const http = require('http').Server(app);
 app.use(express.json({ extended: false, limit: '50mb' }));
 
 app.post('/upload', upload.single('photo'), (req, res, next) => {
-  res.json(req.file);
-  console.log(timeNow);
-  //send name to fastapi
-  var request = require('request');
-  var clientServerOptions = {
-    url: 'http://192.168.1.106:8000/filename?fname=' + timeNow,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  // res.json(req.file);
+  // console.log(timeNow);
+  // //send name to fastapi
+  // var request = require('request');
+  // var clientServerOptions = {
+  //   url: 'http://192.168.1.106:8000/filename?fname=' + timeNow,
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // };
+  // request(clientServerOptions, function (error, response) {
+  //   console.log(error);
+  //   return;
+  // });
+
+  const axios = require('axios');
+
+  var text = '';
+  const sendPostRequest = async () => {
+    let url = 'http://192.168.1.106:8000/filename?fname=' + timeNow;
+    try {
+      const resp = await axios.post(url);
+
+      text = JSON.stringify(resp.data);
+
+      console.log(text);
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
   };
-  request(clientServerOptions, function (error, response) {
-    console.log(error);
-    return;
-  });
+
+  sendPostRequest();
+
+  // const data = JSON.stringify({
+  //   txt: text,
+  // });
+  // res.send(data);
+
+  setTimeout(() => {
+    // console.log(text);
+    const data = JSON.stringify({
+      txt: text,
+    });
+    res.send(data);
+  }, 3000);
 });
 
 app.post('/uploadText', upload.single('photo'), (req, res, next) => {
@@ -54,8 +86,6 @@ app.post('/uploadText', upload.single('photo'), (req, res, next) => {
       const resp = await axios.post(url);
 
       text = JSON.stringify(resp.data);
-
-      console.log(text);
     } catch (err) {
       // Handle Error Here
       console.error(err);
