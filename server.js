@@ -55,7 +55,7 @@ app.post('/uploadText', upload.single('photo'), (req, res, next) => {
 
       text = JSON.stringify(resp.data);
 
-      //console.log(text);
+      console.log(text);
     } catch (err) {
       // Handle Error Here
       console.error(err);
@@ -64,8 +64,13 @@ app.post('/uploadText', upload.single('photo'), (req, res, next) => {
 
   sendPostRequest();
 
+  // const data = JSON.stringify({
+  //   txt: text,
+  // });
+  // res.send(data);
+
   setTimeout(() => {
-    console.log(text);
+    // console.log(text);
     const data = JSON.stringify({
       txt: text,
     });
@@ -73,6 +78,6 @@ app.post('/uploadText', upload.single('photo'), (req, res, next) => {
   }, 3000);
 });
 
-const PORT = 5001;
+const PORT = 5000;
 app.get('/', (req, res) => res.send('API running'));
 app.listen(PORT, () => console.log(`Server running on Port : ${PORT}`));
