@@ -31,7 +31,7 @@ app.post('/upload', upload.single('photo'), (req, res, next) => {
   var textNew = '';
   var textFinal = '';
   const sendPostRequest = async () => {
-    let url = 'http://192.168.0.108:5000/filename?fname=' + timeNow;
+    let url = 'http://10.0.0.4:5000/filename?fname=' + timeNow;
     try {
       const resp = await axios.post(url);
 
